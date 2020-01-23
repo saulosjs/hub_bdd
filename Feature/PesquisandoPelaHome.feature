@@ -1,6 +1,5 @@
 # language: pt
 
-
 Funcionalidade: Pesquisar um produto pela home
 
 	@First
@@ -16,8 +15,11 @@ Funcionalidade: Pesquisar um produto pela home
   Cenario: Pesquisar um produto que nao existe
     Dado que o usuario estiver na home
     Quando clicar em tablets
+    E click o preco
     E escolher o preco
+    E click o display
     E escolher o display
     Entao ve que nao tem o produto
     E tirar o print
     E fechar o site
+    

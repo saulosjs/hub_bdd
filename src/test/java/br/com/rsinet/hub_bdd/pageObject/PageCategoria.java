@@ -17,15 +17,26 @@ public class PageCategoria {
 	@FindBy(how = How.XPATH, using = "//*[@id=\"searchPage\"]/div[3]/div/label/span")
 	private WebElement mensagemSemResultados;
 
-	@FindBy(how = How.XPATH, using = "/html/body/div[3]/section/article/div[3]/div/div/div[1]/div/ul/li[1]/div/div/div/div[2]/div")
+	@FindBy(how = How.XPATH, using = "//*[@id=\"slider\"]/div/div[2]/div")
 	private WebElement precoDireita;
+
+	@FindBy(how = How.XPATH, using = "//*[@id=\"slider\"]/div/div[1]/div")
+	private WebElement precoEsquerda;
 
 	@FindBy(how = How.ID, using = "18")
 	private WebElement hpPro608;
 
+	@FindBy(how = How.ID, using = "accordionAttrib0")
+	private WebElement display;
+
+	@FindBy(how = How.ID, using = "display_0")
+	private WebElement wxga;
+
+	@FindBy(how = How.ID, using = "accordionPrice")
+	private WebElement preco;
+
 	public PageCategoria(WebDriver driver) {
 		this.driver = driver;
-
 	}
 
 	public void clickProduto() {
@@ -39,7 +50,30 @@ public class PageCategoria {
 	}
 
 	public void clickHpPro608() {
-		hpPro608.click();
+		WebElement element = hpPro608;
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", element);
+	}
+
+	public WebElement posPrecoDireita() {
+		return precoDireita;
+	}
+
+	public WebElement posPrecoEsquerda() {
+
+		return precoEsquerda;
+	}
+
+	public void clickDisplay() {
+		display.click();
+	}
+
+	public void escolherDispla() {
+		wxga.click();
+	}
+
+	public void clickPreco() {
+		preco.click();
 	}
 
 }

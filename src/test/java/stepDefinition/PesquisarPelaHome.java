@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
@@ -18,11 +19,10 @@ public class PesquisarPelaHome {
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
-	private int maiorPreco;
-	private int menorPreco;
+	private Actions acao;
 
 	@Dado("^que o usuario estiver na home$")
-	public void o_usuario_estiver_na_pagina_principal() {
+	public void que_o_usuario_estiver_na_home() {
 		expectativa = "https://www.advantageonlineshopping.com/#/product/18";
 		driver = new ChromeDriver();
 		driver.get("https://www.advantageonlineshopping.com/#/");
@@ -36,16 +36,6 @@ public class PesquisarPelaHome {
 	@Quando("^clicar em tablets$")
 	public void clicar_em_tablets() {
 		home.clickTablets();
-	}
-
-	@Quando("^escolher o preco$")
-	public void escolher_o_preco() {
-		maiorPreco = 
-	}
-
-	@Quando("^escolher o display$")
-	public void escolher_o_display() {
-
 	}
 
 	@Quando("^clicar no produto$")
@@ -69,9 +59,30 @@ public class PesquisarPelaHome {
 		driver.quit();
 	}
 
+	@Quando("^click o preco$")
+	public void click_o_preco() {
+		produto.clickPreco();
+	}
+
+	@Quando("^escolher o preco$")
+	public void escolher_o_preco() {
+		acao = new Actions(driver);
+		acao.dragAndDrop(produto.posPrecoEsquerda(), produto.posPrecoDireita()).perform();
+	}
+
+	@Quando("^click o display$")
+	public void click_o_display() {
+		produto.clickDisplay();
+	}
+
+	@Quando("^escolher o display$")
+	public void escolher_o_display() {
+		produto.escolherDispla();
+	}
+
 	@Entao("^ve que nao tem o produto$")
 	public void ve_que_nao_tem_o_produto() {
-
+		System.out.println("foi");
 	}
 
 }
