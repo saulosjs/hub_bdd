@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import br.com.rsinet.hub_tdd.leituraExcel.Constant;
+import br.com.rsinet.hub_tdd.leituraExcel.ExcelUtils;
+
 public class PageNovoUsuario {
 	final WebDriver driver;
 
@@ -53,56 +56,57 @@ public class PageNovoUsuario {
 	@FindBy(how = How.CSS, using = "//*[@id=\\\"formCover\\\"]/div[1]/div[2]/sec-view[1]/div/label")
 	private WebElement txtFalhou;
 
-	public PageNovoUsuario(WebDriver driver) {
+	public PageNovoUsuario(WebDriver driver) throws Exception {
 		this.driver = driver;
+		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Planilha1");
 	}
 
 	public void preencherUsuario() throws Exception {
-		usuario.sendKeys("manodocue3");
+		usuario.sendKeys(ExcelUtils.getCellData(1, 0));
 	}
 
 	public void preencherSenha() throws Exception {
-		senha.sendKeys("suaMae69");
+		senha.sendKeys(ExcelUtils.getCellData(1, 2));
 	}
 
 	public void preencherEmai() throws Exception {
-		email.sendKeys("mano@hotmail.com.br");
+		email.sendKeys(ExcelUtils.getCellData(1, 1));
 	}
 
 	public void preencherConfirmarSenha() throws Exception {
-		confirmarSenha.sendKeys("suaMae69");
+		confirmarSenha.sendKeys(ExcelUtils.getCellData(1, 3));
 	}
 
 	public void preencherNome() throws Exception {
-		nome.sendKeys("Mario");
+		nome.sendKeys(ExcelUtils.getCellData(1, 4));
 	}
 
 	public void preencherSobreNome() throws Exception {
-		sobreNome.sendKeys("Mariano");
+		sobreNome.sendKeys(ExcelUtils.getCellData(1, 5));
 	}
 
 	public void preencherTelefone() throws Exception {
-		telefone.sendKeys("(11)912374");
+		telefone.sendKeys(ExcelUtils.getCellData(1, 6));
 	}
 
 	public void preencherPais() throws Exception {
-		pais.sendKeys("Brazil");
+		pais.sendKeys(ExcelUtils.getCellData(1, 7));
 	}
 
 	public void preencherEndereco() throws Exception {
-		endereco.sendKeys("rua general 290");
+		endereco.sendKeys(ExcelUtils.getCellData(1, 9));
 	}
 
 	public void preencherCodigoPostal() throws Exception {
-		codigoPostal.sendKeys("(11)24344");
+		codigoPostal.sendKeys(ExcelUtils.getCellData(1, 11));
 	}
 
 	public void preencherCidade() throws Exception {
-		cidade.sendKeys("sao paulo");
+		cidade.sendKeys(ExcelUtils.getCellData(1, 8));
 	}
 
 	public void preencherEstado() throws Exception {
-		estado.sendKeys("sp");
+		estado.sendKeys(ExcelUtils.getCellData(1, 10));
 	}
 
 	public void clickConcondarCondicoes() throws Exception {

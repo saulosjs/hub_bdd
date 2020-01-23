@@ -2,29 +2,40 @@ package stepDefinition;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageNovoUsuario;
-import br.com.rsinet.hub_tdd.print.RobotPrint;
+import br.com.rsinet.hub_tdd.utilities.RobotPrint;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
-public class CadasUsu {
+public class CadastroUsuario {
 	private ChromeDriver driver;
 	private HomePage home;
 	private PageNovoUsuario novaConta;
+	private String expectativa;
+	private String atual;
+	private String expectativaFall;
+	private String atualFall;
+	private WebDriverWait wait;
 
 	@Dado("^usuario estar na pagina principal$")
-	public void usuario_estar_na_pagina_principal() {
+	public void usuario_estar_na_pagina_principal() throws Exception {
 		driver = new ChromeDriver();
 		driver.get("https://www.advantageonlineshopping.com/#/");
 		home = PageFactory.initElements(driver, HomePage.class);
 		novaConta = PageFactory.initElements(driver, PageNovoUsuario.class);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		expectativa = driver.getCurrentUrl();
+		expectativaFall = "User name already exists";
 	}
 
 	@Quando("^clicar na pagina de novo usuario$")
@@ -60,7 +71,6 @@ public class CadasUsu {
 
 	@Quando("^escrever sobre nome$")
 	public void escrever_sobre_nome() throws Exception {
-		// Write code here that turns the phrase above into concrete actions
 		novaConta.preencherSobreNome();
 	}
 
@@ -99,9 +109,17 @@ public class CadasUsu {
 		novaConta.clickConcondarCondicoes();
 	}
 
-	@Entao("^clicar no botao registro$")
+	@Quando("^clicar no botao registro$")
 	public void clicar_no_botao_registro() {
 		novaConta.clickRegistrar();
+	}
+
+	@Entao("^verifica se criou a conta$")
+	public void verifica_se_criou_a_conta() {
+		wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.urlToBe(expectativa));
+		atual = driver.getCurrentUrl();
+		Assert.assertEquals(expectativa, atual);
 	}
 
 	@Entao("^tirar uma print$")
@@ -112,6 +130,14 @@ public class CadasUsu {
 	@Entao("^fechar o chrome$")
 	public void fechar_o_chrome() {
 		driver.close();
+	}
+
+	@Entao("^verifivar erro$")
+	public void verifivar_erro() throws InterruptedException {
+		Thread.sleep(2000);
+		atualFall = driver.findElement(By.cssSelector("#registerPage .invalid")).getText();
+		Assert.assertEquals(expectativaFall, atualFall);
+		RobotPrint.pegarTela();
 	}
 
 }

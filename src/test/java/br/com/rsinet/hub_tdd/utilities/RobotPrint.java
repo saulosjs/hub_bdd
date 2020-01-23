@@ -1,4 +1,4 @@
-package br.com.rsinet.hub_tdd.print;
+package br.com.rsinet.hub_tdd.utilities;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
