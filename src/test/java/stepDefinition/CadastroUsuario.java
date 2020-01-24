@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,9 +36,9 @@ public class CadastroUsuario {
 	}
 
 	@Entao("^entrar na pagina principal!$")
-	public void entrar_na_pagina_principal() {
-		home = PageFactory.initElements(driver, HomePage.class);
-		novaConta = PageFactory.initElements(driver, PageNovoUsuario.class);
+	public void entrar_na_pagina_principal() throws Exception {
+		home = new HomePage(driver);
+		novaConta = new PageNovoUsuario(driver);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		expectativa = driver.getCurrentUrl();

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 
 import br.com.rsinet.hub_tdd.leituraExcel.Constant;
 import br.com.rsinet.hub_tdd.leituraExcel.ExcelUtils;
@@ -57,6 +58,7 @@ public class PageNovoUsuario {
 	private WebElement txtFalhou;
 
 	public PageNovoUsuario(WebDriver driver) throws Exception {
+		PageFactory.initElements(driver, this);
 		this.driver = driver;
 		ExcelUtils.setExcelFile(Constant.Path_TestData + Constant.File_TestData, "Planilha1");
 	}

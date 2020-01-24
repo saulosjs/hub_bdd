@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.PageFactory;
 
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
@@ -33,8 +32,8 @@ public class PesquisarPelaHome {
 
 	@Entao("^entrar na pagina principal$")
 	public void entrar_na_pagina_principal() {
-		home = PageFactory.initElements(driver, HomePage.class);
-		produto = PageFactory.initElements(driver, PageCategoria.class);
+		home = new HomePage(driver);
+		produto = new PageCategoria(driver);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
