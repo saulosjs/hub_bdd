@@ -5,11 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class PageCategoria {
 	final WebDriver driver;
-	private WebDriverWait wait;
 
 	@FindBy(how = How.LINK_TEXT, using = "HP ZBook 17 G2 Mobile Workstation")
 	private WebElement hpZBoo17k;
@@ -34,6 +32,9 @@ public class PageCategoria {
 
 	@FindBy(how = How.ID, using = "accordionPrice")
 	private WebElement preco;
+
+	@FindBy(how = How.XPATH, using = "/html/body/div[3]/section/article/div[3]/div/div/div[3]/label/span")
+	private WebElement resutado;
 
 	public PageCategoria(WebDriver driver) {
 		this.driver = driver;
@@ -60,7 +61,6 @@ public class PageCategoria {
 	}
 
 	public WebElement posPrecoEsquerda() {
-
 		return precoEsquerda;
 	}
 
@@ -74,6 +74,10 @@ public class PageCategoria {
 
 	public void clickPreco() {
 		preco.click();
+	}
+
+	public String getTextoResutado() {
+		return resutado.getText();
 	}
 
 }

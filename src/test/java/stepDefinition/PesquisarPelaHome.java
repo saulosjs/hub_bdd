@@ -21,20 +21,27 @@ public class PesquisarPelaHome {
 	private String atual;
 	private Actions acao;
 
-	@Dado("^que o usuario estiver na home$")
-	public void que_o_usuario_estiver_na_home() {
-		expectativa = "https://www.advantageonlineshopping.com/#/product/18";
+	@Dado("^que o usuario abra o chrome$")
+	public void que_o_usuario_abra_o_chrome() {
 		driver = new ChromeDriver();
+	}
+
+	@Quando("^escrever o nome do site$")
+	public void escrever_o_nome_do_site() {
 		driver.get("https://www.advantageonlineshopping.com/#/");
+	}
+
+	@Entao("^entrar na pagina principal$")
+	public void entrar_na_pagina_principal() {
 		home = PageFactory.initElements(driver, HomePage.class);
 		produto = PageFactory.initElements(driver, PageCategoria.class);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
 	}
 
-	@Quando("^clicar em tablets$")
-	public void clicar_em_tablets() {
+	@Dado("^que o usuario clicar em tablets$")
+	public void que_o_usuario_clicar_em_tablets() {
+		expectativa = "https://www.advantageonlineshopping.com/#/product/18";
 		home.clickTablets();
 	}
 
@@ -59,19 +66,20 @@ public class PesquisarPelaHome {
 		driver.quit();
 	}
 
-	@Quando("^click o preco$")
-	public void click_o_preco() {
+	@Quando("^clicar na aba de preco$")
+	public void clicar_na_aba_de_preco() {
 		produto.clickPreco();
 	}
 
 	@Quando("^escolher o preco$")
 	public void escolher_o_preco() {
+		expectativa = "No results";
 		acao = new Actions(driver);
 		acao.dragAndDrop(produto.posPrecoEsquerda(), produto.posPrecoDireita()).perform();
 	}
 
-	@Quando("^click o display$")
-	public void click_o_display() {
+	@Quando("^click na aba do display$")
+	public void click_na_aba_do_display() {
 		produto.clickDisplay();
 	}
 
@@ -80,9 +88,10 @@ public class PesquisarPelaHome {
 		produto.escolherDispla();
 	}
 
-	@Entao("^ve que nao tem o produto$")
-	public void ve_que_nao_tem_o_produto() {
-		System.out.println("foi");
+	@Entao("^aparece uma mensagem de que nao existe o produto$")
+	public void aparece_uma_mensagem_de_que_nao_existe_o_produto() {
+		atual = produto.getTextoResutado();
+		Assert.assertEquals(expectativa, atual);
 	}
 
 }

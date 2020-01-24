@@ -26,10 +26,18 @@ public class CadastroUsuario {
 	private String atualFall;
 	private WebDriverWait wait;
 
-	@Dado("^usuario estar na pagina principal$")
-	public void usuario_estar_na_pagina_principal() throws Exception {
+	@Dado("^que o usuario abra o chrome!$")
+	public void que_o_usuario_abra_o_chrome() {
 		driver = new ChromeDriver();
+	}
+
+	@Quando("^escrever o nome do site!$")
+	public void escrever_o_nome_do_site() {
 		driver.get("https://www.advantageonlineshopping.com/#/");
+	}
+
+	@Entao("^entrar na pagina principal!$")
+	public void entrar_na_pagina_principal() {
 		home = PageFactory.initElements(driver, HomePage.class);
 		novaConta = PageFactory.initElements(driver, PageNovoUsuario.class);
 		driver.manage().window().maximize();
@@ -38,7 +46,7 @@ public class CadastroUsuario {
 		expectativaFall = "User name already exists";
 	}
 
-	@Quando("^clicar na pagina de novo usuario$")
+	@Dado("^clicar na pagina de novo usuario$")
 	public void clicar_na_pagina_de_novo_usuario() {
 		home.clickLogin();
 		home.clickNovoUsuario();

@@ -22,17 +22,24 @@ public class PesquisarPelaLupa {
 	private String expectativa;
 	private String atual;
 
-	@Dado("^que o usuario estiver na pagina principal$")
-	public void o_usuario_estiver_na_pagina_principal() {
-		expectativa = "https://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
+	@Dado("^que o usuario abra o chrome\\.$")
+	public void que_o_usuario_abra_o_chrome() {
 		driver = new ChromeDriver();
+	}
+
+	@Quando("^escrever o nome do site\\.$")
+	public void escrever_o_nome_do_site() {
 		driver.get("https://www.advantageonlineshopping.com/#/");
+	}
+
+	@Entao("^entrar na pagina principal\\.$")
+	public void entrar_na_pagina_principal() {
+		expectativa = "https://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
 		home = PageFactory.initElements(driver, HomePage.class);
 		novaConta = PageFactory.initElements(driver, PageNovoUsuario.class);
 		produto = PageFactory.initElements(driver, PageCategoria.class);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
 	}
 
 	@Quando("^clicar na lupa$")
