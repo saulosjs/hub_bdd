@@ -1,22 +1,22 @@
 package stepDefinition;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageNovoUsuario;
-import br.com.rsinet.hub_tdd.utilities.RobotPrint;
+import br.com.rsinet.hub_tdd.utilities.PrintDiretorio;
+import br.com.rsinet.hub_tdd.utilities.ScreenShot;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
 public class CadastroUsuario {
-	private ChromeDriver driver;
+	private WebDriver driver;
 	private HomePage home;
 	private PageNovoUsuario novaConta;
 	private String expectativa;
@@ -25,24 +25,14 @@ public class CadastroUsuario {
 	private String atualFall;
 	private WebDriverWait wait;
 
-	@Dado("^que o usuario abra o chrome!$")
-	public void que_o_usuario_abra_o_chrome() {
-		driver = new ChromeDriver();
-	}
-
-	@Quando("^escrever o nome do site!$")
-	public void escrever_o_nome_do_site() {
-		driver.get("https://www.advantageonlineshopping.com/#/");
-	}
-
-	@Entao("^entrar na pagina principal!$")
-	public void entrar_na_pagina_principal() throws Exception {
+	@Dado("^que o usuario estiver na pagina principal$")
+	public void que_o_usuario_estiver_na_pagina_principal() throws Exception {
+		driver = DriverFactory.AbrirSite(driver);
 		home = new HomePage(driver);
 		novaConta = new PageNovoUsuario(driver);
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		expectativa = driver.getCurrentUrl();
 		expectativaFall = "User name already exists";
+		expectativa = "https://www.advantageonlineshopping.com/#/";
+
 	}
 
 	@Dado("^clicar na pagina de novo usuario$")
@@ -130,13 +120,13 @@ public class CadastroUsuario {
 	}
 
 	@Entao("^tirar uma print$")
-	public void tirar_uma_print() {
-		RobotPrint.pegarTela();
+	public void tirar_uma_print() throws Exception {
+		ScreenShot.getScreenShots(PrintDiretorio.criaConta, driver);
 	}
 
 	@Entao("^fechar o chrome$")
 	public void fechar_o_chrome() {
-		driver.close();
+		DriverFactory.fecharChrome(driver);
 	}
 
 	@Entao("^verifivar erro$")
@@ -144,7 +134,7 @@ public class CadastroUsuario {
 		Thread.sleep(2000);
 		atualFall = driver.findElement(By.cssSelector("#registerPage .invalid")).getText();
 		Assert.assertEquals(expectativaFall, atualFall);
-		RobotPrint.pegarTela();
+
 	}
 
 }

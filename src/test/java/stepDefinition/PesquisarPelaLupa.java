@@ -1,45 +1,31 @@
 package stepDefinition;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.WebDriver;
 
+import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
-import br.com.rsinet.hub_bdd.pageObject.PageNovoUsuario;
+import br.com.rsinet.hub_tdd.utilities.PrintDiretorio;
+import br.com.rsinet.hub_tdd.utilities.ScreenShot;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
 public class PesquisarPelaLupa {
 
-	private ChromeDriver driver;
+	private WebDriver driver;
 	private HomePage home;
-	private PageNovoUsuario novaConta;
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
 
-	@Dado("^que o usuario abra o chrome\\.$")
-	public void que_o_usuario_abra_o_chrome() {
-		driver = new ChromeDriver();
-	}
-
-	@Quando("^escrever o nome do site\\.$")
-	public void escrever_o_nome_do_site() {
-		driver.get("https://www.advantageonlineshopping.com/#/");
-	}
-
-	@Entao("^entrar na pagina principal\\.$")
+	@Dado("^entrar na pagina principal\\.$")
 	public void entrar_na_pagina_principal() {
+		driver = DriverFactory.AbrirSite(driver);
+		home = new HomePage(driver);
+		produto = new PageCategoria(driver);
 		expectativa = "https://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
-		home = PageFactory.initElements(driver, HomePage.class);
-		novaConta = PageFactory.initElements(driver, PageNovoUsuario.class);
-		produto = PageFactory.initElements(driver, PageCategoria.class);
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
 	@Quando("^clicar na lupa$")
@@ -81,13 +67,14 @@ public class PesquisarPelaLupa {
 	}
 
 	@Entao("^tirar um print$")
-	public void tirar_um_print() {
-		System.out.println("print");
+	public void tirar_um_print() throws Exception {
+		Thread.sleep(1000);
+		ScreenShot.getScreenShots(PrintDiretorio.pesquisaLupa, driver);
 	}
 
 	@Entao("^fechar o chome$")
 	public void fechar_o_chome() {
-		driver.close();
+		DriverFactory.fecharChrome(driver);
 	}
 
 }

@@ -3,14 +3,13 @@
 Funcionalidade: Criar novo usuario
   
   Contexto: entrar no site
-    Dado que o usuario abra o chrome!
-    Quando escrever o nome do site!
-    Entao entrar na pagina principal!
+    Dado que o usuario estiver na pagina principal
+
     
-	@First
+	
   Cenario: Cadastrar nova conta
-    Dado clicar na pagina de novo usuario
-    Quando escrever nome do usuario
+    Quando clicar na pagina de novo usuario
+    E escrever nome do usuario
     E escrever email
     E escrever senha
     E escrever confirmar senha
@@ -28,10 +27,10 @@ Funcionalidade: Criar novo usuario
     E tirar uma print
     E fechar o chrome
     
-	@Second
+	
 	Cenario: Falhar em cadastrar nova conta
-	Dado clicar na pagina de novo usuario
-    Quando escrever nome do usuario
+	Quando clicar na pagina de novo usuario
+    E escrever nome do usuario
     E escrever email
     E escrever senha
     E escrever confirmar senha
@@ -46,4 +45,5 @@ Funcionalidade: Criar novo usuario
     E aceitar as conticoes
     E clicar no botao registro
 	Entao verifivar erro
+	E tirar uma print
 	E fechar o chrome

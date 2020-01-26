@@ -3,49 +3,41 @@ package stepDefinition;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 
+import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
+import br.com.rsinet.hub_tdd.utilities.PrintDiretorio;
+import br.com.rsinet.hub_tdd.utilities.ScreenShot;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
 public class PesquisarPelaHome {
-	private ChromeDriver driver;
+	private WebDriver driver;
 	private HomePage home;
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
 	private Actions acao;
 
-	@Dado("^que o usuario abra o chrome$")
-	public void que_o_usuario_abra_o_chrome() {
-		driver = new ChromeDriver();
-	}
-
-	@Quando("^escrever o nome do site$")
-	public void escrever_o_nome_do_site() {
-		driver.get("https://www.advantageonlineshopping.com/#/");
-	}
-
-	@Entao("^entrar na pagina principal$")
-	public void entrar_na_pagina_principal() {
+	@Dado("^que o usuario entre na pagina principal$")
+	public void que_o_usuario_entre_na_pagina_principal() {
+		driver = DriverFactory.AbrirSite(driver);
 		home = new HomePage(driver);
 		produto = new PageCategoria(driver);
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
-	@Dado("^que o usuario clicar em tablets$")
+	@Quando("^que o usuario clicar em tablets$")
 	public void que_o_usuario_clicar_em_tablets() {
 		expectativa = "https://www.advantageonlineshopping.com/#/product/18";
 		home.clickTablets();
 	}
 
 	@Quando("^clicar no produto$")
-	public void clicar_no_produto() {
+	public void clicar_no_produto() throws InterruptedException {
 		produto.clickHpPro608();
 	}
 
@@ -56,13 +48,14 @@ public class PesquisarPelaHome {
 	}
 
 	@Entao("^tirar o print$")
-	public void tirar_o_print() {
-		System.out.println("print");
+	public void tirar_o_print() throws Exception {
+		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+		ScreenShot.getScreenShots(PrintDiretorio.pesquisaHome, driver);
 	}
 
 	@Entao("^fechar o site$")
 	public void fechar_o_site() {
-		driver.quit();
+		DriverFactory.fecharChrome(driver);
 	}
 
 	@Quando("^clicar na aba de preco$")
