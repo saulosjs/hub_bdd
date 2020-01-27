@@ -6,7 +6,8 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
+import br.com.rsinet.hub_bdd.manager.PageObjectManager;
+import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -22,12 +23,15 @@ public class PesquisarPelaHome {
 	private String expectativa;
 	private String atual;
 	private Actions acao;
+	private GerenciadorDriver site;
+	private PageObjectManager gerenciador;
 
 	@Dado("^que o usuario entre na pagina principal$")
 	public void que_o_usuario_entre_na_pagina_principal() {
-		driver = DriverFactory.AbrirSite(driver);
-		home = new HomePage(driver);
-		produto = new PageCategoria(driver);
+		gerenciador = new PageObjectManager(driver);
+		driver = site.AbrirSite();
+		home = gerenciador.getHomePage();
+		produto = gerenciador.getPageCategoria();
 	}
 
 	@Quando("^que o usuario clicar em tablets$")
@@ -55,7 +59,7 @@ public class PesquisarPelaHome {
 
 	@Entao("^fechar o site$")
 	public void fechar_o_site() {
-		DriverFactory.fecharChrome(driver);
+//		DriverFactory.fecharChrome(driver);
 	}
 
 	@Quando("^clicar na aba de preco$")

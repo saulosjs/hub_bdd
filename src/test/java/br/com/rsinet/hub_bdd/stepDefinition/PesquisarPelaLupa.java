@@ -3,7 +3,8 @@ package br.com.rsinet.hub_bdd.stepDefinition;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
+import br.com.rsinet.hub_bdd.manager.PageObjectManager;
+import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -19,10 +20,13 @@ public class PesquisarPelaLupa {
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
+	private PageObjectManager gerenciador;
+	private GerenciadorDriver site;
 
 	@Dado("^entrar na pagina principal\\.$")
 	public void entrar_na_pagina_principal() {
-		driver = DriverFactory.AbrirSite(driver);
+		gerenciador = new PageObjectManager(driver);
+		driver = site.AbrirSite();
 		home = new HomePage(driver);
 		produto = new PageCategoria(driver);
 		expectativa = "https://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
@@ -74,7 +78,7 @@ public class PesquisarPelaLupa {
 
 	@Entao("^fechar o chome$")
 	public void fechar_o_chome() {
-		DriverFactory.fecharChrome(driver);
+//		DriverFactory.fecharChrome(driver);
 	}
 
 }

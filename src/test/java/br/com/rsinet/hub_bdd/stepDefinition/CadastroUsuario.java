@@ -6,7 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
+import br.com.rsinet.hub_bdd.manager.PageObjectManager;
+import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageNovoUsuario;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -24,14 +25,18 @@ public class CadastroUsuario {
 	private String expectativaFall;
 	private String atualFall;
 	private WebDriverWait wait;
+	private GerenciadorDriver dr;
+	private PageObjectManager gerenciadorObjetos;
 
 	@Dado("^que o usuario estiver na pagina principal$")
 	public void que_o_usuario_estiver_na_pagina_principal() throws Exception {
-		driver = DriverFactory.AbrirSite(driver);
-		home = new HomePage(driver);
-		novaConta = new PageNovoUsuario(driver);
+		dr = new GerenciadorDriver(driver);
+		driver = dr.AbrirSite();
+		gerenciadorObjetos = new PageObjectManager(driver);
 		expectativaFall = "User name already exists";
 		expectativa = "https://www.advantageonlineshopping.com/#/";
+		home = gerenciadorObjetos.getHomePage();
+		novaConta = gerenciadorObjetos.getPageNovoCadastro();
 
 	}
 
@@ -126,7 +131,7 @@ public class CadastroUsuario {
 
 	@Entao("^fechar o chrome$")
 	public void fechar_o_chrome() {
-		DriverFactory.fecharChrome(driver);
+//		DriverFactory.fecharChrome(driver);
 	}
 
 	@Entao("^verifivar erro$")
@@ -137,4 +142,6 @@ public class CadastroUsuario {
 
 	}
 
+	
+	
 }
