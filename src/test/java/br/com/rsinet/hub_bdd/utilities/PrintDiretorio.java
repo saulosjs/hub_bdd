@@ -1,4 +1,4 @@
-package br.com.rsinet.hub_tdd.utilities;
+package br.com.rsinet.hub_bdd.utilities;
 
 public class PrintDiretorio {
 	public static final String criaConta = "target/Print/CriaConta/";

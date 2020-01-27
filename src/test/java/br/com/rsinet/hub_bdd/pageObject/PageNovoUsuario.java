@@ -6,8 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-import br.com.rsinet.hub_tdd.leituraExcel.Constant;
-import br.com.rsinet.hub_tdd.leituraExcel.ExcelUtils;
+import br.com.rsinet.hub_bdd.leituraExcel.Constant;
+import br.com.rsinet.hub_bdd.leituraExcel.ExcelUtils;
 
 public class PageNovoUsuario {
 	final WebDriver driver;

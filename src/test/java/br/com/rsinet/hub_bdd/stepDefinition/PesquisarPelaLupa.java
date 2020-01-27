@@ -1,4 +1,4 @@
-package stepDefinition;
+package br.com.rsinet.hub_bdd.stepDefinition;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import br.com.rsinet.hub_bdd.pageObject.DriverFactory;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
-import br.com.rsinet.hub_tdd.utilities.PrintDiretorio;
-import br.com.rsinet.hub_tdd.utilities.ScreenShot;
+import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
+import br.com.rsinet.hub_bdd.utilities.ScreenShot;
 import cucumber.api.java.pt.Dado;
 import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;

@@ -1,4 +1,4 @@
-package br.com.rsinet.hub_tdd.leituraExcel;
+package br.com.rsinet.hub_bdd.leituraExcel;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
