@@ -6,8 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import br.com.rsinet.hub_bdd.manager.PageObjectManager;
-import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
+import br.com.rsinet.hub_bdd.cucumber.TestContext;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageNovoUsuario;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -17,7 +16,6 @@ import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
 public class CadastroUsuario {
-	private WebDriver driver;
 	private HomePage home;
 	private PageNovoUsuario novaConta;
 	private String expectativa;
@@ -25,18 +23,19 @@ public class CadastroUsuario {
 	private String expectativaFall;
 	private String atualFall;
 	private WebDriverWait wait;
-	private GerenciadorDriver dr;
-	private PageObjectManager gerenciadorObjetos;
+	private TestContext testContext;
 
+	public CadastroUsuario(TestContext context) throws Exception {
+		testContext = context;
+		home = testContext.getPageObjectManager().getHomePage();
+		novaConta = testContext.getPageObjectManager().getPageNovoCadastro();
+	}
+	
 	@Dado("^que o usuario estiver na pagina principal$")
 	public void que_o_usuario_estiver_na_pagina_principal() throws Exception {
-		dr = new GerenciadorDriver(driver);
-		driver = dr.AbrirSite();
-		gerenciadorObjetos = new PageObjectManager(driver);
+		home.navigateTo_Home();
 		expectativaFall = "User name already exists";
-		expectativa = "https://www.advantageonlineshopping.com/#/";
-		home = gerenciadorObjetos.getHomePage();
-		novaConta = gerenciadorObjetos.getPageNovoCadastro();
+		expectativa = "http://www.advantageonlineshopping.com/#/";
 
 	}
 
@@ -118,26 +117,23 @@ public class CadastroUsuario {
 
 	@Entao("^verifica se criou a conta$")
 	public void verifica_se_criou_a_conta() {
-		wait = new WebDriverWait(driver, 10);
+		wait = new WebDriverWait(testContext.getWebDriverManager().getDriver(), 10);
 		wait.until(ExpectedConditions.urlToBe(expectativa));
-		atual = driver.getCurrentUrl();
+		atual = testContext.getWebDriverManager().getDriver().getCurrentUrl();
 		Assert.assertEquals(expectativa, atual);
 	}
 
 	@Entao("^tirar uma print$")
 	public void tirar_uma_print() throws Exception {
-		ScreenShot.getScreenShots(PrintDiretorio.criaConta, driver);
+		ScreenShot.getScreenShots(PrintDiretorio.criaConta, testContext.getWebDriverManager().getDriver());
 	}
 
-	@Entao("^fechar o chrome$")
-	public void fechar_o_chrome() {
-//		DriverFactory.fecharChrome(driver);
-	}
+	
 
 	@Entao("^verifivar erro$")
 	public void verifivar_erro() throws InterruptedException {
 		Thread.sleep(2000);
-		atualFall = driver.findElement(By.cssSelector("#registerPage .invalid")).getText();
+		atualFall = testContext.getWebDriverManager().getDriver().findElement(By.cssSelector("#registerPage .invalid")).getText();
 		Assert.assertEquals(expectativaFall, atualFall);
 
 	}

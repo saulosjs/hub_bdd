@@ -1,10 +1,8 @@
 package br.com.rsinet.hub_bdd.stepDefinition;
 
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 
-import br.com.rsinet.hub_bdd.manager.PageObjectManager;
-import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
+import br.com.rsinet.hub_bdd.cucumber.TestContext;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -15,21 +13,24 @@ import cucumber.api.java.pt.Quando;
 
 public class PesquisarPelaLupa {
 
-	private WebDriver driver;
 	private HomePage home;
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
-	private PageObjectManager gerenciador;
-	private GerenciadorDriver site;
+	private TestContext testContext;
+	
+	public PesquisarPelaLupa(TestContext contxt) {
+		testContext = contxt;
+		home = testContext.getPageObjectManager().getHomePage();
+		produto = testContext.getPageObjectManager().getPageCategoria();
+		
+	}
+	
 
 	@Dado("^entrar na pagina principal\\.$")
 	public void entrar_na_pagina_principal() {
-		gerenciador = new PageObjectManager(driver);
-		driver = site.AbrirSite();
-		home = new HomePage(driver);
-		produto = new PageCategoria(driver);
-		expectativa = "https://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
+		home.navigateTo_Home();
+		expectativa = "http://www.advantageonlineshopping.com/#/product/8?viewAll=laptops";
 	}
 
 	@Quando("^clicar na lupa$")
@@ -60,7 +61,7 @@ public class PesquisarPelaLupa {
 
 	@Entao("^verificar se o produto esta certo$")
 	public void verificar_se_o_produto_esta_certo() {
-		atual = driver.getCurrentUrl();
+		atual = testContext.getWebDriverManager().getDriver().getCurrentUrl();
 		Assert.assertEquals(expectativa, atual);
 	}
 
@@ -72,13 +73,10 @@ public class PesquisarPelaLupa {
 
 	@Entao("^tirar um print$")
 	public void tirar_um_print() throws Exception {
-		Thread.sleep(1000);
-		ScreenShot.getScreenShots(PrintDiretorio.pesquisaLupa, driver);
+		produto.esperarFac();
+		ScreenShot.getScreenShots(PrintDiretorio.pesquisaLupa, testContext.getWebDriverManager().getDriver());
 	}
 
-	@Entao("^fechar o chome$")
-	public void fechar_o_chome() {
-//		DriverFactory.fecharChrome(driver);
-	}
+	
 
 }

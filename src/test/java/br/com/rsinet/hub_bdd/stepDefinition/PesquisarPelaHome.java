@@ -1,13 +1,9 @@
 package br.com.rsinet.hub_bdd.stepDefinition;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import br.com.rsinet.hub_bdd.manager.PageObjectManager;
-import br.com.rsinet.hub_bdd.pageObject.GerenciadorDriver;
+import br.com.rsinet.hub_bdd.cucumber.TestContext;
 import br.com.rsinet.hub_bdd.pageObject.HomePage;
 import br.com.rsinet.hub_bdd.pageObject.PageCategoria;
 import br.com.rsinet.hub_bdd.utilities.PrintDiretorio;
@@ -17,26 +13,29 @@ import cucumber.api.java.pt.Entao;
 import cucumber.api.java.pt.Quando;
 
 public class PesquisarPelaHome {
-	private WebDriver driver;
+
 	private HomePage home;
 	private PageCategoria produto;
 	private String expectativa;
 	private String atual;
 	private Actions acao;
-	private GerenciadorDriver site;
-	private PageObjectManager gerenciador;
+	private TestContext testContext;
+
+	public PesquisarPelaHome(TestContext context) {
+		testContext = context;
+		produto = testContext.getPageObjectManager().getPageCategoria();
+		home = testContext.getPageObjectManager().getHomePage();
+	}
 
 	@Dado("^que o usuario entre na pagina principal$")
 	public void que_o_usuario_entre_na_pagina_principal() {
-		gerenciador = new PageObjectManager(driver);
-		driver = site.AbrirSite();
-		home = gerenciador.getHomePage();
-		produto = gerenciador.getPageCategoria();
+		home.navigateTo_Home();
+
 	}
 
 	@Quando("^que o usuario clicar em tablets$")
 	public void que_o_usuario_clicar_em_tablets() {
-		expectativa = "https://www.advantageonlineshopping.com/#/product/18";
+		expectativa = "http://www.advantageonlineshopping.com/#/product/18";
 		home.clickTablets();
 	}
 
@@ -47,19 +46,15 @@ public class PesquisarPelaHome {
 
 	@Entao("^ve as informacoes do produto$")
 	public void ve_as_informacoes_do_produto() {
-		atual = driver.getCurrentUrl();
+		produto.esperarFac();
+		atual = testContext.getWebDriverManager().getDriver().getCurrentUrl();
 		Assert.assertEquals(expectativa, atual);
 	}
 
 	@Entao("^tirar o print$")
 	public void tirar_o_print() throws Exception {
-		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-		ScreenShot.getScreenShots(PrintDiretorio.pesquisaHome, driver);
-	}
-
-	@Entao("^fechar o site$")
-	public void fechar_o_site() {
-//		DriverFactory.fecharChrome(driver);
+		produto.esperarFac();
+		ScreenShot.getScreenShots(PrintDiretorio.pesquisaHome, testContext.getWebDriverManager().getDriver());
 	}
 
 	@Quando("^clicar na aba de preco$")
@@ -70,7 +65,7 @@ public class PesquisarPelaHome {
 	@Quando("^escolher o preco$")
 	public void escolher_o_preco() {
 		expectativa = "No results";
-		acao = new Actions(driver);
+		acao = new Actions(testContext.getWebDriverManager().getDriver());
 		acao.dragAndDrop(produto.posPrecoEsquerda(), produto.posPrecoDireita()).perform();
 	}
 

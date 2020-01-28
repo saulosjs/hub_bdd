@@ -37,6 +37,9 @@ public class PageCategoria {
 	@FindBy(how = How.XPATH, using = "/html/body/div[3]/section/article/div[3]/div/div/div[3]/label/span")
 	private WebElement resutado;
 
+	@FindBy(how = How.NAME, using = "follow_facebook")
+	private WebElement face;
+	
 	public PageCategoria(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
@@ -56,6 +59,11 @@ public class PageCategoria {
 		WebElement element = hpPro608;
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
 		executor.executeScript("arguments[0].click();", element);
+	}
+
+	public void esperarFac() {
+		WebElement element = face;
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
 	}
 
 	public WebElement posPrecoDireita() {

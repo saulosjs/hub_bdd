@@ -118,5 +118,6 @@ public class PageNovoUsuario {
 	public void clickRegistrar() {
 		btoRegistrar.click();
 	}
+	
 
 }

@@ -58,7 +58,13 @@ public class HomePage {
 	}
 
 	public void clickTablets() {
-		tablets.click();
+		WebElement element = tablets;
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", element);
+		
 	}
 
+	public void navigateTo_Home() {
+		driver.get("http://www.advantageonlineshopping.com/#/");
+	}
 }

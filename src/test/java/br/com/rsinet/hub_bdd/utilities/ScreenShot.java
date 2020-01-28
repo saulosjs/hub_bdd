@@ -11,7 +11,16 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import br.com.rsinet.hub_bdd.cucumber.TestContext;
+import br.com.rsinet.hub_bdd.manager.WebDriverManager;
+
 public class ScreenShot {
+	private static TestContext testContext;
+
+	public ScreenShot(TestContext context) {
+		testContext = context;
+	}
+
 	@Rule
 	public static String getTimeStamp() {
 		String timestamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(Calendar.getInstance().getTime());
@@ -19,7 +28,8 @@ public class ScreenShot {
 	}
 
 	public static void getScreenShots(String caminho, WebDriver driver) throws Exception {
-		File srcfile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		File srcfile = ((TakesScreenshot) driver)
+				.getScreenshotAs(OutputType.FILE);
 		File file = new File("Screenshots");
 
 		if (file.exists()) {
@@ -29,8 +39,8 @@ public class ScreenShot {
 		}
 	}
 
-	public static String getScreenshot(WebDriver driver) {
-		TakesScreenshot ts = (TakesScreenshot) driver;
+	public static String getScreenshot() {
+		TakesScreenshot ts = (TakesScreenshot) testContext.getWebDriverManager().getDriver();
 
 		File src = ts.getScreenshotAs(OutputType.FILE);
 

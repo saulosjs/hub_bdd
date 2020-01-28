@@ -25,7 +25,6 @@ Funcionalidade: Criar novo usuario
     E clicar no botao registro
     Entao verifica se criou a conta
     E tirar uma print
-    E fechar o chrome
     
 	
 	Cenario: Falhar em cadastrar nova conta
@@ -46,4 +45,3 @@ Funcionalidade: Criar novo usuario
     E clicar no botao registro
 	Entao verifivar erro
 	E tirar uma print
-	E fechar o chrome
